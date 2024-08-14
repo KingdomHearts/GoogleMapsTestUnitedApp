@@ -1,0 +1,32 @@
+﻿@page "/map"
+@using GoogleMapsComponents
+@using GoogleMapsComponents.Maps
+
+<h1>Google Map</h1>
+<div style="height: 500px;">
+    <GoogleMap @ref="_map" Id="map" Options="@mapOptions" Height="100%" OnAfterInit="AfterMapRender"></GoogleMap>
+</div>
+
+@code {
+    private GoogleMap _map;
+    private MapOptions mapOptions;
+
+    protected override void OnInitialized()
+    {
+        mapOptions = new MapOptions
+        {
+            Zoom = 13,
+            Center = new LatLngLiteral
+            {
+                Lat = 13.505892,
+                Lng = 100.8162
+            },
+            MapTypeId = MapTypeId.Roadmap
+        };
+    }
+
+    private async Task AfterMapRender()
+    {
+        var bounds = await LatLngBounds.CreateAsync(_map.JsRuntime);
+    }
+}
